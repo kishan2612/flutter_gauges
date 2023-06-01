@@ -1,11 +1,128 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="c253d45e-8526-41c3-9b9b-bcce29eee9ac" name="Default Changelist" comment="" />
-    <ignored path="$PROJECT_DIR$/.dart_tool/" />
-    <ignored path="$PROJECT_DIR$/.pub/" />
-    <ignored path="$PROJECT_DIR$/build/" />
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <list default="true" id="c253d45e-8526-41c3-9b9b-bcce29eee9ac" name="Default Changelist" comment="final patch.">
+      <change afterPath="$PROJECT_DIR$/lib/src/core/analysis_options.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/core/core.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/core/core_internal.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/core/interactive_scroll_viewer_internal.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/core/localizations.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/core/src/calendar/calendar_helper.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/core/src/calendar/custom_looping_widget.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/core/src/calendar/hijri_date_time.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/core/src/legend/legend.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/core/src/license.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/core/src/localizations/global_localizations.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/core/src/slider_controller.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/core/src/theme/barcodes_theme.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/core/src/theme/calendar_theme.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/core/src/theme/charts_theme.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/core/src/theme/datagrid_theme.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/core/src/theme/datapager_theme.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/core/src/theme/daterangepicker_theme.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/core/src/theme/gauges_theme.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/core/src/theme/maps_theme.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/core/src/theme/pdfviewer_theme.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/core/src/theme/range_selector_theme.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/core/src/theme/range_slider_theme.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/core/src/theme/slider_theme.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/core/src/theme/theme_widget.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/core/src/tooltip/tooltip.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/core/src/utils/helper.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/core/src/utils/shape_helper.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/core/src/widgets/interactive_scroll_viewer.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/core/src/zoomable/zoomable.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/core/theme.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/core/tooltip_internal.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/core/zoomable_internal.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/radial_gauge/annotation/gauge_annotation_renderer.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/radial_gauge/axis/radial_axis_label.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/radial_gauge/axis/radial_axis_parent_widget.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/radial_gauge/axis/radial_axis_scope.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/radial_gauge/axis/radial_axis_widget.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/radial_gauge/gauge/radial_gauge_scope.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/radial_gauge/pointers/marker_pointer_renderer.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/radial_gauge/pointers/needle_pointer_renderer.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/radial_gauge/pointers/pointer_painting_details.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/radial_gauge/pointers/range_pointer_renderer.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/radial_gauge/pointers/widget_pointer.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/radial_gauge/pointers/widget_pointer_renderer.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/radial_gauge/range/gauge_range_renderer.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/radial_gauge/renderers/marker_pointer_renderer.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/radial_gauge/renderers/needle_pointer_renderer.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/radial_gauge/renderers/radial_axis_renderer.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/radial_gauge/styles/radial_knob_style.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/radial_gauge/styles/radial_tail_style.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/radial_gauge/styles/radial_text_style.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/radial_gauge/styles/radial_tick_style.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/radial_gauge/title/radial_title.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/radial_gauge/utils/radial_callback_args.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/radial_gauge/utils/radial_gauge_typedef.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/theme/analysis_options.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/theme/core.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/theme/core_internal.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/theme/interactive_scroll_viewer_internal.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/theme/localizations.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/theme/src/calendar/calendar_helper.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/theme/src/calendar/custom_looping_widget.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/theme/src/calendar/hijri_date_time.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/theme/src/legend/legend.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/theme/src/license.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/theme/src/localizations/global_localizations.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/theme/src/slider_controller.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/theme/src/theme/barcodes_theme.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/theme/src/theme/calendar_theme.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/theme/src/theme/charts_theme.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/theme/src/theme/datagrid_theme.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/theme/src/theme/datapager_theme.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/theme/src/theme/daterangepicker_theme.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/theme/src/theme/gauges_theme.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/theme/src/theme/maps_theme.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/theme/src/theme/pdfviewer_theme.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/theme/src/theme/range_selector_theme.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/theme/src/theme/range_slider_theme.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/theme/src/theme/slider_theme.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/theme/src/theme/theme_widget.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/theme/src/tooltip/tooltip.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/theme/src/utils/helper.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/theme/src/utils/shape_helper.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/theme/src/widgets/interactive_scroll_viewer.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/theme/src/zoomable/zoomable.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/theme/theme.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/theme/tooltip_internal.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/src/theme/zoomable_internal.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.dart_tool/package_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.packages" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/gauges.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/gauges.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/radial_gauge/annotation/gauge_annotation.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/radial_gauge/annotation/gauge_annotation.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/radial_gauge/axis/gauge_axis.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/radial_gauge/axis/radial_axis.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/radial_gauge/axis/radial_axis.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/radial_gauge/common/common.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/radial_gauge/common/gauge_annotation_renderer.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/radial_gauge/common/radial_gauge_renderer.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/radial_gauge/gauge/radial_gauge.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/radial_gauge/gauge/radial_gauge.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/radial_gauge/gauge_painter/marker_pointer_painter.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/radial_gauge/gauge_painter/needle_pointer_painter.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/radial_gauge/gauge_painter/radial_axis_painter.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/radial_gauge/gauge_painter/range_painter.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/radial_gauge/gauge_painter/range_pointer_painter.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/radial_gauge/pointers/gauge_pointer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/radial_gauge/pointers/gauge_pointer.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/radial_gauge/pointers/marker_pointer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/radial_gauge/pointers/marker_pointer.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/radial_gauge/pointers/needle_pointer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/radial_gauge/pointers/needle_pointer.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/radial_gauge/pointers/range_pointer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/radial_gauge/pointers/range_pointer.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/radial_gauge/range/gauge_range.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/radial_gauge/range/gauge_range.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/radial_gauge/theme/gauge_theme.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/radial_gauge/utils/enum.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/radial_gauge/utils/enum.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/radial_gauge/utils/helper.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/radial_gauge/utils/helper.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -13,24 +130,6 @@
   </component>
   <component name="DefaultGradleProjectSettings">
     <option name="isMigrated" value="true" />
-  </component>
-  <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/../../../../sdk/flutter/.pub-cache/git/charts_flutter_core-3af84bf71f71008f7098b3991b9406cb2107c08b/lib/core.dart">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../../../../sdk/flutter/.pub-cache/git/charts_flutter_core-3af84bf71f71008f7098b3991b9406cb2107c08b/lib/src/license.dart">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="4" column="1" selection-start-line="4" selection-start-column="1" selection-end-line="4" selection-end-column="1" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
@@ -52,11 +151,15 @@
       </list>
     </option>
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="ProjectFrameBounds">
     <option name="y" value="23" />
     <option name="width" value="1440" />
     <option name="height" value="877" />
   </component>
+  <component name="ProjectId" id="2QYXpAG8kGoTZ9I10lvfEr1Io0S" />
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
@@ -103,26 +206,29 @@
       <pane id="Scope" />
     </panes>
   </component>
-  <component name="PropertiesComponent">
-    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="android.sdk.path" value="$USER_HOME$/Android/Sdk" />
-    <property name="dart.analysis.tool.window.force.activate" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="dart.settings" />
-    <property name="show.migrate.to.gradle.popup" value="false" />
+  <component name="ProjectViewState">
+    <option name="showLibraryContents" value="true" />
   </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "cidr.known.project.marker": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "last_opened_file_path": "/Users/kishan/Documents/Work Project/flutter_gauges/lib/src/core",
+    "settings.editor.selected.configurable": "flutter.settings",
+    "show.migrate.to.gradle.popup": "false"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/lib/src/core" />
+      <recent name="$PROJECT_DIR$/lib/src" />
+      <recent name="$PROJECT_DIR$/lib/src/theme" />
+    </key>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -199,6 +305,17 @@
       <window_info anchor="right" id="Palette&#9;" order="5" />
       <window_info anchor="right" id="Flutter Performance" order="6" />
     </layout>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Renamed package name." />

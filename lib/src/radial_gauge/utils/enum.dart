@@ -1,54 +1,95 @@
-part of gauges;
+///  A alignment along either the horizontal or vertical.
+enum GaugeAlignment {
+  /// GaugeAlignment.near aligns the gauge element to near either
+  /// the horizontal or vertical.
+  near,
 
-/// GaugeAlignment.near aligns the gauge to near
-/// whereas GaugeAlignment.center aligns the gauge to center
-/// and the GaugeAlignment.ar aligns the gauge to far
-enum GaugeAlignment { near, center, far }
+  /// GaugeAlignment.center aligns the gauge element to center either
+  /// the horizontal or vertical.
+  center,
 
-/// ElementPosition.inside places the axis elements inside the axis
-/// whereas ElementPosition.outside places the axis elements outside the axis
-enum ElementsPosition { inside, outside }
+  /// GaugeAlignment.far aligns the gauge element to far either
+  /// the horizontal or vertical.
+  far
+}
 
-/// CornerStyle.bothFlat does not render the rounded corner on both side
-/// CornerStyle.bothCurve renders the rounded corner on both side
-/// CornerStyle.startCurve renders the rounded corner on start side
-/// CornerStyle.endCurce renders the rounded corner on end side
-enum CornerStyle { bothFlat, bothCurve, startCurve, endCurve }
+/// Position the gauge element either inside or outside the axis.
+enum ElementsPosition {
+  /// ElementPosition.inside places the axis elements inside the axis.
+  inside,
 
-/// MarkerText.invertedTriangle points the value with inverted triangle
-/// MarkerText.triangle points the value with triangle
-/// MarkerText.circle points the value with circle
-/// MarkerText.rectangle points the value with rectangle
-/// MarkerText.diamond points the value with diamond
-/// MarkerText.image points the value with image
-/// MarkerText.slider points the value with slider
+  /// ElementPosition.outside places the axis elements outside the axis.
+  outside
+}
+
+/// Apply the corner style for range pointer.
+enum CornerStyle {
+  /// CornerStyle.bothFlat does not apply the rounded corner on both side
+  bothFlat,
+
+  /// CornerStyle.bothCurve apply the rounded corner on both side.
+  bothCurve,
+
+  /// CornerStyle.startCurve apply the rounded corner on start(left) side.
+  startCurve,
+
+  /// CornerStyle.endCurce apply the rounded corner on end(right) side.
+  endCurve
+}
+
+/// Apply the different marker type for pointer.
 enum MarkerType {
+  /// MarkerText.invertedTriangle points the value with inverted triangle.
   invertedTriangle,
+
+  /// MarkerText.triangle points the value with triangle.
   triangle,
+
+  /// MarkerText.circle points the value with circle.
   circle,
+
+  /// MarkerText.rectangle points the value with rectangle
   rectangle,
+
+  /// MarkerText.diamond points the value with diamond.
   diamond,
+
+  /// MarkerText.image points the value with image.
   image,
+
+  /// MarkerText.text points the value with text.
   text
 }
 
-/// AnimationType.bounceOut animates the pointer with Curves.bounceOut
-/// AnimationType.ease animates the pointer with Curves.ease
-/// AnimationType.easeInCirc animates the pointer with Curves.easeInCirc
-/// AnimationType.easeOutBack animates the pointer with Curves.easeOutBack
-/// AnimationType.elasticOut animates the pointer with Curves.elasticOut
-/// AnimationType.linear animates the pointer with Curves.linear
-/// AnimationType.slowMiddle animates the pointers with Curves.slowMiddle
+/// Apply the different types of animation to pointer.
 enum AnimationType {
+  /// AnimationType.bounceOut animates the pointer with Curves.bounceOut.
   bounceOut,
+
+  /// AnimationType.ease animates the pointer with Curves.ease.
   ease,
+
+  /// AnimationType.easeInCirc animates the pointer with Curves.easeInCirc.
   easeInCirc,
+
+  /// AnimationType.easeOutBack animates the pointer with Curves.easeOutBack.
   easeOutBack,
+
+  /// AnimationType.elasticOut animates the pointer with Curves.elasticOut.
   elasticOut,
+
+  /// AnimationType.linear animates the pointer with Curves.linear.
   linear,
+
+  /// AnimationType.slowMiddle animates the pointers with Curves.slowMiddle.
   slowMiddle
 }
 
-/// GaugeSizeUnit.factor specifies the size in factor 0 to 1
-/// GaugeSizeUnit.logicalPixel specifies the size in  logical pixel
-enum GaugeSizeUnit { factor, logicalPixel }
+/// Size determined either the logical pixel or the radius factor.
+enum GaugeSizeUnit {
+  /// GaugeSizeUnit.factor specifies the value in factor from 0 to 1.
+  factor,
+
+  /// GaugeSizeUnit.logicalPixel specifies the value in logical pixel.
+  logicalPixel
+}

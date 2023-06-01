@@ -1,6 +1,20 @@
-part of gauges;
+import 'package:flutter/material.dart';
+import 'package:flutter_gauges/src/theme/src/theme/gauges_theme.dart';
+import '../../radial_gauge/axis/radial_axis_scope.dart';
+import '../../radial_gauge/pointers/gauge_pointer.dart';
+import '../../radial_gauge/pointers/needle_pointer_renderer.dart';
+import '../../radial_gauge/renderers/needle_pointer_renderer.dart';
+import '../../radial_gauge/styles/radial_knob_style.dart';
+import '../../radial_gauge/styles/radial_tail_style.dart';
+import '../../radial_gauge/utils/enum.dart';
+import '../../radial_gauge/utils/helper.dart';
+import '../../radial_gauge/utils/radial_callback_args.dart';
+import '../../radial_gauge/utils/radial_gauge_typedef.dart';
 
-/// Represents the needle pointer.
+/// Create the pointer to indicate the value with needle or arrow shape.
+///
+/// [NeedlePointer] contains three parts, namely needle, knob, and tail
+/// and that can be placed on a gauge to mark the values.
 ///
 /// ```dart
 ///Widget build(BuildContext context) {
@@ -13,49 +27,53 @@ part of gauges;
 ///        ));
 ///}
 /// ```
-class NeedlePointer extends GaugePointer {
-  /// Creates the needle pointer
-  NeedlePointer(
-      {double value = 0,
-      bool enableDragging,
-      ValueChanged<double> onValueChanged,
-      ValueChanged<double> onValueChangeStart,
-      ValueChanged<double> onValueChangeEnd,
-      ValueChanged<ValueChangingArgs> onValueChanging,
-      KnobStyle knobStyle,
+class NeedlePointer extends LeafRenderObjectWidget implements GaugePointer {
+  /// Create a needle pointer with the default or required properties.
+  ///
+  /// The arguments [value], must not be null and [animationDuration],
+  /// [needleLength], [needleStartWidth], [needleEndWidth] must be non-negative.
+  const NeedlePointer(
+      {Key? key,
+      this.value = 0,
+      this.enableDragging = false,
+      this.onValueChanged,
+      this.onValueChangeStart,
+      this.onValueChangeEnd,
+      this.onValueChanging,
+      KnobStyle? knobStyle,
       this.tailStyle,
       this.gradient,
       this.needleLength = 0.6,
       this.lengthUnit = GaugeSizeUnit.factor,
       this.needleStartWidth = 1,
       this.needleEndWidth = 10,
-      bool enableAnimation,
-      double animationDuration = 1000,
-      AnimationType animationType,
+      this.onCreatePointerRenderer,
+      this.enableAnimation = false,
+      this.animationDuration = 1000,
+      this.animationType = AnimationType.ease,
       this.needleColor})
-      : knobStyle = knobStyle ?? KnobStyle(knobRadius: 0.08),
-        assert(animationDuration > 0),
-        assert(value != null),
-        assert(needleLength >= 0),
-        assert(needleStartWidth >= 0),
-        assert(needleEndWidth >= 0),
-        super(
-            value: value,
-            enableDragging: enableDragging ?? false,
-            onValueChanged: onValueChanged,
-            onValueChangeStart: onValueChangeStart,
-            onValueChangeEnd: onValueChangeEnd,
-            onValueChanging: onValueChanging,
-            animationType: animationType ?? AnimationType.ease,
-            enableAnimation: enableAnimation ?? false,
-            animationDuration: animationDuration);
+      : knobStyle = knobStyle ?? const KnobStyle(),
+        assert(animationDuration > 0,
+            'Animation duration must be a non-negative value'),
+        assert(needleLength >= 0, 'Needle length must be greater than zero.'),
+        assert(needleStartWidth >= 0,
+            'Needle start width must be greater than zero.'),
+        assert(
+            needleEndWidth >= 0, 'Needle end width must be greater than zero.'),
+        super(key: key);
 
-  /// Customizes the knob in radial gauge.
+  /// The style to use for the needle knob.
   ///
-  /// Also refer [KnobStyle]
+  /// A knob is a rounded ball at the end of an needle or arrow which style
+  /// customized by [knobStyle].
+  ///
+  /// Defaults to the [knobStyle] property with knobRadius is 0.08 radius
+  /// factor.
+  ///
+  /// Also refer [KnobStyle].
   ///
   /// ```dart
-  ///Widget build(BuildContext context) {
+  /// Widget build(BuildContext context) {
   ///    return Container(
   ///        child: SfRadialGauge(
   ///          axes:<RadialAxis>[RadialAxis
@@ -68,9 +86,11 @@ class NeedlePointer extends GaugePointer {
   /// ```
   final KnobStyle knobStyle;
 
-  /// Customizes the needle tail in radial gauge.
+  /// The style to use for the needle tail.
   ///
-  /// Also refer [TailStyle]
+  /// Defaults to `null`..
+  ///
+  /// Also refer [TailStyle].
   ///
   /// ```dart
   ///Widget build(BuildContext context) {
@@ -84,11 +104,22 @@ class NeedlePointer extends GaugePointer {
   ///        ));
   ///}
   /// ```
-  final TailStyle tailStyle;
+  final TailStyle? tailStyle;
 
-  /// Specifies the length of the needle pointer either in logical pixel or radius factor.
+  /// Adjusts the needle pointer length from center.
   ///
-  /// Defaults to 0.6
+  /// You can specify length value either in logical pixel or radius factor
+  /// using the [lengthUnit] property. if [lengthUnit] is
+  /// [GaugeSizeUnit.factor], value will be given from 0 to 1.
+  /// Here pointer length is calculated by [needleLength] * axis radius value.
+  ///
+  /// Example: [needleLength] value is 0.5 and axis radius is 100, pointer
+  /// length is 50(0.5 * 100) logical pixels from axis center.
+  /// if [lengthUnit] is [GaugeSizeUnit.logicalPixel], defined value length
+  /// from axis center.
+  ///
+  /// Defaults to 0.6 and [lengthUnit] is [GaugeSizeUnit.factor].
+  ///
   /// ```dart
   /// Widget build(BuildContext context) {
   ///    return Container(
@@ -102,11 +133,15 @@ class NeedlePointer extends GaugePointer {
   /// ```
   final double needleLength;
 
-  /// Calculates the needle pointer length either in logical pixel or radius factor.
+  /// Calculates the needle pointer length either in logical pixel
+  /// or radius factor.
   ///
-  /// Also refer [GaugeSizeUnit]
+  /// Using [GaugeSizeUnit], needle pointer length is calculated.
   ///
-  /// Defaults to SizeUnit.factor
+  /// Defaults to [GaugeSizeUnit.factor].
+  ///
+  /// Also refer [GaugeSizeUnit].
+  ///
   /// ```dart
   /// Widget build(BuildContext context) {
   ///    return Container(
@@ -121,7 +156,10 @@ class NeedlePointer extends GaugePointer {
   /// ```
   final GaugeSizeUnit lengthUnit;
 
-  /// Specifies the start width of the needle pointer either in logical pixel or radius factor.
+  /// Specifies the start width of the needle pointer in logical pixels.
+  ///
+  /// Using [needleStartWidth] and [needleEndWidth], you can customize the
+  /// needle shape as rectangle or triangle.
   ///
   ///  Defaults to 1
   ///  ```dart
@@ -130,14 +168,17 @@ class NeedlePointer extends GaugePointer {
   ///        child: SfRadialGauge(
   ///          axes:<RadialAxis>[RadialAxis
   ///          ( pointers: <GaugePointer>[
-  ///             NeedlePointer( startWidth: 20, value: 30
+  ///             NeedlePointer( needleStartWidth: 20, value: 30
   ///           )])]
   ///        ));
   ///}
   ///  ```
   final double needleStartWidth;
 
-  /// Specifies the end width of the needle pointer either in logical pixel or radius factor.
+  /// Specifies the end width of the needle pointer in logical pixels.
+  ///
+  /// Using [needleStartWidth] and [needleEndWidth], you can customize
+  /// the needle shape as rectangle or triangle.
   ///
   /// Defaults to 10
   /// ```dart
@@ -146,7 +187,7 @@ class NeedlePointer extends GaugePointer {
   ///        child: SfRadialGauge(
   ///          axes:<RadialAxis>[RadialAxis
   ///          ( pointers: <GaugePointer>[
-  ///             NeedlePointer( endWidth: 30
+  ///             NeedlePointer( needleEndWidth: 30
   ///           )])]
   ///        ));
   ///}
@@ -155,7 +196,7 @@ class NeedlePointer extends GaugePointer {
 
   /// Specifies the color of the needle pointer.
   ///
-  /// Defaults to null
+  /// Defaults to `null`.
   ///
   /// ```dart
   /// Widget build(BuildContext context) {
@@ -168,11 +209,14 @@ class NeedlePointer extends GaugePointer {
   ///        ));
   ///}
   /// ```
-  final Color needleColor;
+  final Color? needleColor;
 
-  /// Specifies the gradient of the needle pointer.
+  /// A gradient to use when filling the needle pointer.
   ///
-  /// Defaults to null
+  /// [gradient] of [NeedlePointer] only support [LinearGradient]. You can use
+  /// this to display the depth effect of the needle pointer.
+  ///
+  /// Defaults to `null`.
   ///
   /// ```dart
   /// Widget build(BuildContext context) {
@@ -182,296 +226,357 @@ class NeedlePointer extends GaugePointer {
   ///          ( pointers: <GaugePointer>[
   ///             NeedlePointer( color: Colors.blue, value: 30
   ///             gradient: LinearGradient(
-  //                colors: const <Color>[Color.fromRGBO(28, 114, 189, 1),Color.fromRGBO(28, 114, 189, 1),
-  //                  Color.fromRGBO(23, 173, 234, 1),Color.fromRGBO(23, 173, 234, 1)],
-  //                stops: const <double>[0,0.5,0.5,1],
-  //
-  //            )
+  ///                colors: const <Color>[Color.fromRGBO(28, 114, 189, 1),
+  ///                Color.fromRGBO(28, 114, 189, 1),
+  ///                  Color.fromRGBO(23, 173, 234, 1),
+  ///                  Color.fromRGBO(23, 173, 234, 1)],
+  ///                stops: const <double>[0,0.5,0.5,1],
+  ///            )
   ///           )])]
   ///        ));
   ///}
   /// ```
-  final LinearGradient gradient;
+  final LinearGradient? gradient;
 
-  /// Specifies the actual tail length
-  double _actualTailLength;
+  /// The callback that is called when the custom renderer for
+  /// the needle pointer is created. and it is not applicable for
+  /// built-in needle pointer
+  ///
+  /// The needle pointer is passed as the argument to the callback in
+  /// order to access the pointer property
+  ///
+  ///```dart
+  /// Widget build(BuildContext context) {
+  ///    return Container(
+  ///        child: SfRadialGauge(
+  ///          axes:<RadialAxis>[RadialAxis(
+  ///             pointers: <GaugePointer>[NeedlePointer(value: 50,
+  ///                onCreatePointerRenderer: handleCreatePointerRenderer,
+  ///             )],
+  ///            )]
+  ///        ));
+  ///}
+  ///
+  /// Called before creating the renderer
+  /// NeedlePointerRenderer handleCreatePointerRenderer(NeedlePointer pointer){
+  /// final _CustomPointerRenderer _customPointerRenderer =
+  ///                                                 _CustomPointerRenderer();
+  /// return _customPointerRenderer;
+  ///}
+  ///
+  /// class _CustomPointerRenderer extends NeedlePointerRenderer{
+  /// _CustomPointerRenderer class implementation
+  /// }
+  ///```
+  final NeedlePointerRendererFactory<NeedlePointerRenderer>?
+      onCreatePointerRenderer;
 
-  /// Specifies the actual length of the pointer based on the coordinate unit
-  double _actualNeedleLength;
-
-  /// Specifies the actual knob radius
-  double _actualCapRadius;
-
-  /// Specifies the angle of the needle pointer
-  double _angle;
-
-  /// Specifies the radian value of needle pointer
-  double _radian;
-
-  /// Specifies the stop x value
-  double _stopX;
-
-  /// Specifies the stop y value
-  double _stopY;
-
-  /// Specifies the start left x value
-  double _startLeftX;
-
-  /// Specifies the start left y value
-  double _startLeftY;
-
-  /// Specifies the start right x value
-  double _startRightX;
-
-  /// Specifies the start right y value
-  double _startRightY;
-
-  /// Specifies the stop left x value
-  double _stopLeftX;
-
-  /// Specifies the stop left y value
-  double _stopLeftY;
-
-  /// Specifies the stop right x value
-  double _stopRightX;
-
-  /// Specifies the stop right y value
-  double _stopRightY;
-
-  /// Specifies the start x value
-  double _startX;
-
-  /// Specifies the start y value
-  double _startY;
-
-  /// Specifies the tail left start x value
-  double _tailLeftStartX;
-
-  /// Specifies the tail left start y value
-  double _tailLeftStartY;
-
-  /// Specifies the tail left end x value
-  double _tailLeftEndX;
-
-  /// Specifies the tail left end y value
-  double _tailLeftEndY;
-
-  /// Specifies the tail right start x value
-  double _tailRightStartX;
-
-  /// Specifies the tail right start y value
-  double _tailRightStartY;
-
-  /// Specifies the tail right end x value
-  double _tailRightEndX;
-
-  /// Specifies the tail right end y value
-  double _tailRightEndY;
-
-  Offset _centerPoint;
-
-  /// Calculates the needle position
+  /// Specifies the duration of the pointer animation.
+  ///
+  /// Duration is defined in milliseconds.
+  ///
+  /// Defaults to `1000`.
+  ///
+  /// ```dart
+  /// Widget build(BuildContext context) {
+  ///    return Container(
+  ///        child: SfRadialGauge(
+  ///          axes:<RadialAxis>[RadialAxis(
+  ///             pointers: <GaugePointer>[NeedlePointer(value: 50,
+  ///             enableAnimation: true, animationDuration: 2000 )],
+  ///            )]
+  ///        ));
+  ///}
+  /// ```
   @override
-  void _calculatePosition() {
-    _calculateDefaultValue();
-    _calculateNeedleOffset();
-  }
+  final double animationDuration;
 
-  /// Calculates the sweep angle of the pointer
-  double _getSweepAngle() {
-    return _axis.valueToFactor(_currentValue);
-  }
-
-  /// Calculates the default value
-  void _calculateDefaultValue() {
-    _actualNeedleLength =
-        _axis._calculateActualValue(needleLength, lengthUnit, false);
-    _actualCapRadius = _axis._calculateActualValue(
-        knobStyle.knobRadius, knobStyle.sizeUnit, false);
-    _currentValue = _minMax(_currentValue, _axis.minimum, _axis.maximum);
-    _angle = (_axis.valueToFactor(_currentValue) * _axis._sweepAngle) +
-        _axis.startAngle;
-    _radian = _degreeToRadian(_angle);
-    _centerPoint = Offset(_axis._axisSize.width / 2 - _axis._centerX,
-        _axis._axisSize.height / 2 - _axis._centerY);
-  }
-
-  void _calculateNeedleOffset() {
-    final double _needleRadian = _degreeToRadian(-90);
-    _stopX = _actualNeedleLength * math.cos(_needleRadian);
-    _stopY = _actualNeedleLength * math.sin(_needleRadian);
-    _startX = 0;
-    _startY = 0;
-
-    if (needleEndWidth != null) {
-      _startLeftX = _startX - needleEndWidth * math.cos(_needleRadian - 90);
-      _startLeftY = _startY - needleEndWidth * math.sin(_needleRadian - 90);
-      _startRightX = _startX - needleEndWidth * math.cos(_needleRadian + 90);
-      _startRightY = _startY - needleEndWidth * math.sin(_needleRadian + 90);
-    }
-
-    if (needleStartWidth != null) {
-      _stopLeftX = _stopX - needleStartWidth * math.cos(_needleRadian - 90);
-      _stopLeftY = _stopY - needleStartWidth * math.sin(_needleRadian - 90);
-      _stopRightX = _stopX - needleStartWidth * math.cos(_needleRadian + 90);
-      _stopRightY = _stopY - needleStartWidth * math.sin(_needleRadian + 90);
-    }
-
-    _calculatePointerRect();
-    if (tailStyle != null && tailStyle.width != null && tailStyle.width > 0) {
-      _calculateTailPosition(_needleRadian);
-    }
-  }
-
-  /// Calculates the needle pointer rect based on
-  /// its start and the stop value
-  void _calculatePointerRect() {
-    double _x1 = _centerPoint.dx;
-    double _x2 = _centerPoint.dx + _actualNeedleLength * math.cos(_radian);
-    double _y1 = _centerPoint.dy;
-    double _y2 = _centerPoint.dy + _actualNeedleLength * math.sin(_radian);
-
-    if (_x1 > _x2) {
-      final double _temp = _x1;
-      _x1 = _x2;
-      _x2 = _temp;
-    }
-
-    if (_y1 > _y2) {
-      final double _temp = _y1;
-      _y1 = _y2;
-      _y2 = _temp;
-    }
-
-    if (_y2 - _y1 < 20) {
-      _y1 -= 10;
-      _y2 += 10;
-    }
-
-    if (_x2 - _x1 < 20) {
-      _x1 -= 10;
-      _x2 += 10;
-    }
-
-    _pointerRect = Rect.fromLTRB(_x1, _y1, _x2, _y2);
-  }
-
-  /// Calculates the values to render the needle tail
-  void _calculateTailPosition(double _needleRadian) {
-    final double _pointerWidth = tailStyle.width;
-    _actualTailLength = _axis._calculateActualValue(
-        tailStyle.length, tailStyle.lengthUnit, false);
-    if (_actualTailLength > 0) {
-      final double _tailEndX =
-          _startX - _actualTailLength * math.cos(_needleRadian);
-      final double _tailEndY =
-          _startY - _actualTailLength * math.sin(_needleRadian);
-      _tailLeftStartX = _startX - _pointerWidth * math.cos(_needleRadian - 90);
-      _tailLeftStartY = _startY - _pointerWidth * math.sin(_needleRadian - 90);
-      _tailRightStartX = _startX - _pointerWidth * math.cos(_needleRadian + 90);
-      _tailRightStartY = _startY - _pointerWidth * math.sin(_needleRadian + 90);
-
-      _tailLeftEndX = _tailEndX - _pointerWidth * math.cos(_needleRadian - 90);
-      _tailLeftEndY = _tailEndY - _pointerWidth * math.sin(_needleRadian - 90);
-      _tailRightEndX = _tailEndX - _pointerWidth * math.cos(_needleRadian + 90);
-      _tailRightEndY = _tailEndY - _pointerWidth * math.sin(_needleRadian + 90);
-    }
-  }
-
-  /// Method to draw pointer needle Pointer
+  /// Specifies the different type of animation for pointer.
+  ///
+  /// Different type of animation provides visually appealing way
+  /// when the pointer moves from one value to another.
+  ///
+  /// Defaults to `AnimationType.linear`.
+  ///
+  /// Also refer [AnimationType]
+  ///
+  ///```dart
+  /// Widget build(BuildContext context) {
+  ///    return Container(
+  ///        child: SfRadialGauge(
+  ///          axes:<RadialAxis>[RadialAxis(
+  ///             pointers: <GaugePointer>[NeedlePointer(value: 50,
+  ///             animationType: AnimationType.ease
+  ///             enableAnimation: true, animationDuration: 2000 )],
+  ///            )]
+  ///        ));
+  ///}
+  ///```
   @override
-  void drawPointer(Canvas canvas, double animationValue, Offset startPosition,
-      Offset endPosition, double pointerAngle) {
-    final double _pointerRadian = _degreeToRadian(pointerAngle);
-    if (_actualNeedleLength != null && _actualNeedleLength > 0) {
-      _renderNeedle(canvas, _pointerRadian);
+  final AnimationType animationType;
+
+  /// Whether to enable the pointer animation.
+  ///
+  /// Set [enableAnimation] is true, the pointer value will cause the pointer
+  /// to animate to the new value.
+  /// The animation duration is specified by [animationDuration].
+  ///
+  /// Defaults to `false`.
+  ///
+  /// ```dart
+  /// Widget build(BuildContext context) {
+  ///    return Container(
+  ///        child: SfRadialGauge(
+  ///          axes:<RadialAxis>[RadialAxis(
+  ///             pointers: <GaugePointer>[NeedlePointer(value: 50,
+  ///             enableAnimation: true)],
+  ///            )]
+  ///        ));
+  ///}
+  /// ```
+  @override
+  final bool enableAnimation;
+
+  /// Whether to allow the pointer dragging.
+  ///
+  /// It provides an option to drag a pointer from one value to another.
+  /// It is used to change the value at run time.
+  ///
+  /// Defaults to `false`.
+  /// ```dart
+  /// Widget build(BuildContext context) {
+  ///    return Container(
+  ///        child: SfRadialGauge(
+  ///          axes:<RadialAxis>[RadialAxis(
+  ///             pointers: <GaugePointer>[NeedlePointer(value: 50,
+  ///             enableDragging: true)],
+  ///            )]
+  ///        ));
+  ///}
+  /// ```
+  @override
+  final bool enableDragging;
+
+  /// Called when the user is done selecting a new value of the pointer
+  /// by dragging.
+  ///
+  /// This callback shouldn't be used to update the pointer
+  /// value (use onValueChanged for that),
+  /// but rather to know when the user has completed selecting a new value
+  /// by ending a drag.
+  ///
+  /// ```dart
+  /// Widget build(BuildContext context) {
+  ///  return Container(
+  ///      child: SfRadialGauge(axes: <RadialAxis>[
+  ///    RadialAxis(
+  ///      pointers: <GaugePointer>[
+  ///        NeedlePointer(
+  ///            value: 50,
+  ///            onValueChangeStart: (double newValue) {
+  ///              setState(() {
+  ///                print('Ended change on $newValue');
+  ///              });
+  ///            })
+  ///      ],
+  ///    )
+  ///  ]));
+  /// }
+  /// ```
+  @override
+  final ValueChanged<double>? onValueChangeEnd;
+
+  /// Called when the user starts selecting a new value of pointer by dragging.
+  ///
+  /// This callback shouldn't be used to update the pointer value
+  /// (use onValueChanged for that), but rather to be notified  when the user
+  /// has started selecting a new value by starting a drag.
+
+  /// The value passed will be the last value that the pointer had before
+  /// the change began.
+  ///
+  /// ```dart
+  /// Widget build(BuildContext context) {
+  ///  return Container(
+  ///      child: SfRadialGauge(axes: <RadialAxis>[
+  ///    RadialAxis(
+  ///      pointers: <GaugePointer>[
+  ///        NeedlePointer(
+  ///            value: 50,
+  ///            onValueChangeStart: (double startValue) {
+  ///              setState(() {
+  ///                print('Started change at $startValue');
+  ///              });
+  ///            })
+  ///      ],
+  ///    )
+  ///  ]));
+  /// }
+  /// ```
+  @override
+  final ValueChanged<double>? onValueChangeStart;
+
+  /// Called during a drag when the user is selecting a new value for the
+  /// pointer by dragging.
+  ///
+  /// The pointer passes the new value to the callback but does not actually
+  /// change state until the parent widget rebuilds the pointer
+  /// with the new value.
+  ///
+  /// The callback provided to onValueChanged should update the state
+  /// of the parent [StatefulWidget] using the [State.setState] method,
+  /// so that the parent gets rebuilt; for example:
+  ///
+  /// ```dart
+  /// Widget build(BuildContext context) {
+  ///  return Container(
+  ///      child: SfRadialGauge(axes: <RadialAxis>[
+  ///    RadialAxis(
+  ///      pointers: <GaugePointer>[
+  ///        NeedlePointer(
+  ///            value: _currentValue,
+  ///            onValueChanged: (double newValue) {
+  ///              setState(() {
+  ///                _currentValue = newValue;
+  ///              });
+  ///            })
+  ///      ],
+  ///    )
+  ///  ]));
+  /// }
+  /// ```
+  @override
+  final ValueChanged<double>? onValueChanged;
+
+  /// Called during a drag when the user is selecting before a new value
+  /// for the pointer by dragging.
+  ///
+  /// This callback shouldn't be used to update the pointer value
+  /// (use onValueChanged for that), but rather to know the new value before
+  /// when the user has completed selecting a new value by drag.
+  ///
+  /// To restrict the update of current drag pointer value,
+  /// set [ValueChangingArgs.cancel] is true.
+  ///
+  /// ```dart
+  /// Widget build(BuildContext context) {
+  ///   return Container(
+  ///       child: SfRadialGauge(axes: <RadialAxis>[
+  ///     RadialAxis(
+  ///       pointers: <GaugePointer>[
+  ///         NeedlePointer(
+  ///             value: 50,
+  ///             onValueChanging: (ValueChangingArgs args) {
+  ///               setState(() {
+  ///                 if (args.value > 10) {
+  ///                   args.cancel = false;
+  ///                 }
+  ///               });
+  ///             })
+  ///       ],
+  ///     )
+  ///   ]));
+  /// }
+  /// ```
+  @override
+  final ValueChanged<ValueChangingArgs>? onValueChanging;
+
+  /// Specifies the value to the pointer.
+  ///
+  /// Changing the pointer value will cause the pointer to animate to the
+  /// new value.
+  ///
+  /// Defaults to `0`.
+  /// ```dart
+  /// Widget build(BuildContext context) {
+  ///    return Container(
+  ///        child: SfRadialGauge(
+  ///          axes:<RadialAxis>[RadialAxis(
+  ///             pointers: <GaugePointer>[NeedlePointer(value: 50,
+  ///             )],
+  ///            )]
+  ///        ));
+  ///}
+  /// ```
+  @override
+  final double value;
+
+  @override
+  RenderObject createRenderObject(BuildContext context) {
+    final SfGaugeThemeData gaugeTheme = SfGaugeTheme.of(context)!;
+    final RadialAxisScope radialAxisScope = RadialAxisScope.of(context);
+    final RadialAxisInheritedWidget ancestor = context
+        .dependOnInheritedWidgetOfExactType<RadialAxisInheritedWidget>()!;
+
+    NeedlePointerRenderer? needlePointerRenderer;
+    if (onCreatePointerRenderer != null) {
+      needlePointerRenderer = onCreatePointerRenderer!();
+      needlePointerRenderer.pointer = this;
     }
 
-    if (_actualTailLength != null && _actualTailLength > 0) {
-      _renderTail(canvas, _pointerRadian);
-    }
-
-    _renderCap(canvas);
+    return RenderNeedlePointer(
+        value: value.clamp(ancestor.minimum, ancestor.maximum),
+        enableDragging: enableDragging,
+        onValueChanged: onValueChanged,
+        onValueChangeStart: onValueChangeStart,
+        onValueChangeEnd: onValueChangeEnd,
+        onValueChanging: onValueChanging,
+        knobStyle: knobStyle,
+        tailStyle: tailStyle,
+        gradient: gradient,
+        needleLength: needleLength,
+        lengthUnit: lengthUnit,
+        needleStartWidth: needleStartWidth,
+        needleEndWidth: needleEndWidth,
+        needlePointerRenderer: needlePointerRenderer,
+        needleColor: needleColor,
+        pointerAnimationController: radialAxisScope.animationController,
+        pointerInterval: radialAxisScope.pointerInterval,
+        isRadialGaugeAnimationEnabled:
+            radialAxisScope.isRadialGaugeAnimationEnabled,
+        enableAnimation: enableAnimation,
+        animationType: animationType,
+        repaintNotifier: radialAxisScope.repaintNotifier,
+        gaugeThemeData: gaugeTheme,
+        context: context);
   }
 
-  /// To render the needle of the pointer
-  void _renderNeedle(Canvas canvas, double _pointerRadian) {
-    final Paint paint = Paint()
-      ..color = needleColor ?? _axis._gauge._gaugeTheme.needleColor
-      ..style = PaintingStyle.fill;
-    final Path path = Path();
-    path.moveTo(_startLeftX, _startLeftY);
-    path.lineTo(_stopLeftX, _stopLeftY);
-    path.lineTo(_stopRightX, _stopRightY);
-    path.lineTo(_startRightX, _startRightY);
-    path.close();
-
-    if (gradient != null) {
-      paint.shader = gradient.createShader(path.getBounds());
+  @override
+  void updateRenderObject(
+      BuildContext context, RenderNeedlePointer renderObject) {
+    final SfGaugeThemeData gaugeTheme = SfGaugeTheme.of(context)!;
+    final RadialAxisScope radialAxisScope = RadialAxisScope.of(context);
+    final RadialAxisInheritedWidget ancestor = context
+        .dependOnInheritedWidgetOfExactType<RadialAxisInheritedWidget>()!;
+    NeedlePointerRenderer? needlePointerRenderer;
+    if (onCreatePointerRenderer != null) {
+      needlePointerRenderer = onCreatePointerRenderer!();
+      needlePointerRenderer.pointer = this;
     }
 
-    canvas.save();
-    canvas.translate(_centerPoint.dx, _centerPoint.dy);
-    canvas.rotate(_pointerRadian);
-    canvas.drawPath(path, paint);
-    canvas.restore();
-  }
-
-  /// To render the tail of the pointer
-  void _renderTail(Canvas canvas, double _pointerRadian) {
-    final Path _tailPath = Path();
-    _tailPath.moveTo(_tailLeftStartX, _tailLeftStartY);
-    _tailPath.lineTo(_tailLeftEndX, _tailLeftEndY);
-    _tailPath.lineTo(_tailRightEndX, _tailRightEndY);
-    _tailPath.lineTo(_tailRightStartX, _tailRightStartY);
-    _tailPath.close();
-
-    canvas.save();
-    canvas.translate(_centerPoint.dx, _centerPoint.dy);
-    canvas.rotate(_pointerRadian);
-
-    final Paint _tailPaint = Paint()
-      ..color = tailStyle.color ?? _axis._gauge._gaugeTheme.tailColor;
-    if (tailStyle.gradient != null) {
-      _tailPaint.shader =
-          tailStyle.gradient.createShader(_tailPath.getBounds());
-    }
-
-    canvas.drawPath(_tailPath, _tailPaint);
-
-    if (tailStyle.borderWidth > 0) {
-      final Paint _tailStrokePaint = Paint()
-        ..color =
-            tailStyle.borderColor ?? _axis._gauge._gaugeTheme.tailBorderColor
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = tailStyle.borderWidth;
-      canvas.drawPath(_tailPath, _tailStrokePaint);
-    }
-
-    canvas.restore();
-  }
-
-  /// To render the cap of needle
-  void _renderCap(Canvas canvas) {
-    if (_actualCapRadius > 0) {
-      final Paint knobPaint = Paint()
-        ..color = knobStyle.color ?? _axis._gauge._gaugeTheme.knobColor;
-      canvas.drawCircle(
-          Offset(_axis._axisSize.width / 2 - _axis._centerX,
-              _axis._axisSize.height / 2 - _axis._centerY),
-          _actualCapRadius,
-          knobPaint);
-
-      if (knobStyle.borderWidth > 0) {
-        final double _actualBorderWidth = _axis._calculateActualValue(
-            knobStyle.borderWidth, knobStyle.sizeUnit, false);
-        final Paint _strokePaint = Paint()
-          ..color =
-              knobStyle.borderColor ?? _axis._gauge._gaugeTheme.knobBorderColor
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = _actualBorderWidth;
-        canvas.drawCircle(_centerPoint, _actualCapRadius, _strokePaint);
-      }
-    }
+    renderObject
+      ..enableDragging = enableDragging
+      ..onValueChanged = onValueChanged
+      ..onValueChangeStart = onValueChangeStart
+      ..onValueChangeEnd = onValueChangeEnd
+      ..onValueChanging = onValueChanging
+      ..knobStyle = knobStyle
+      ..tailStyle = tailStyle
+      ..gradient = gradient
+      ..needleLength = needleLength
+      ..lengthUnit = lengthUnit
+      ..needleStartWidth = needleStartWidth
+      ..needleEndWidth = needleEndWidth
+      ..needlePointerRenderer = needlePointerRenderer
+      ..needleColor = needleColor
+      ..enableAnimation = enableAnimation
+      ..animationType = animationType
+      ..pointerAnimationController = radialAxisScope.animationController
+      ..repaintNotifier = radialAxisScope.repaintNotifier
+      ..isRadialGaugeAnimationEnabled =
+          radialAxisScope.isRadialGaugeAnimationEnabled
+      ..gaugeThemeData = gaugeTheme
+      ..value = value.clamp(ancestor.minimum, ancestor.maximum);
+    super.updateRenderObject(context, renderObject);
   }
 }
