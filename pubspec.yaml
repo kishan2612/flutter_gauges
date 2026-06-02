@@ -3,11 +3,11 @@ description: Flutter gauges library to create interactive and animated gauges.
 version: 1.0.0
 
 environment:
-  sdk: '>=2.17.0 <3.0.0'
+  sdk: ">=3.3.0 <4.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  intl: ^0.18.0
+  intl: ^0.20.2
 
 flutter:
